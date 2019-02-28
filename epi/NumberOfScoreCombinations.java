@@ -10,25 +10,26 @@ public class NumberOfScoreCombinations {
                                List<Integer> individualPlayScores) {
     // TODO - you fill in here.
     int[][] numCombos = new int[individualPlayScores.size()][finalScore+1];
-    for (int givenPlayScoresIndex = 0; givenPlayScoresIndex < individualPlayScores.size(); givenPlayScoresIndex++) {
+    for (int individualPlayScoresIndex = 0; individualPlayScoresIndex < individualPlayScores.size(); individualPlayScoresIndex++) {
         final int FIRST_SCORE_INDEX = 0;
-        numCombos[givenPlayScoresIndex][FIRST_SCORE_INDEX] = 1; // one way to reach 0
+        numCombos[individualPlayScoresIndex][FIRST_SCORE_INDEX] = 1; // one way to reach 0
       for (int currentScore = 1; currentScore <= finalScore; currentScore++) {
         int withoutThisPlay = 0;
         int withThisPlay = 0;
 
-        if (givenPlayScoresIndex > 0) {
-          withoutThisPlay = numCombos[givenPlayScoresIndex -1][currentScore];
+        if (individualPlayScoresIndex > 0) {
+            // just use the last score
+          withoutThisPlay = numCombos[individualPlayScoresIndex -1][currentScore];
         }
 
-        if (currentScore >= individualPlayScores.get(givenPlayScoresIndex)) {
-          withThisPlay = numCombos[givenPlayScoresIndex][currentScore - individualPlayScores.get(givenPlayScoresIndex)];
+        if (currentScore >= individualPlayScores.get(individualPlayScoresIndex)) {
+            // if the current score is above the individual score
+            // subtract individual score from current score
+          withThisPlay = numCombos[individualPlayScoresIndex][currentScore - individualPlayScores.get(individualPlayScoresIndex)];
         }
-//        int withoutThisPlay = givenPlayScoresIndex - 1 >= 0 ? numCombos[givenPlayScoresIndex-1][currentScore] : 0;
-//
-//        int withThisPlay = currentScore >= individualPlayScores.get(givenPlayScoresIndex) ?
-//                numCombos[givenPlayScoresIndex][currentScore - individualPlayScores.get(givenPlayScoresIndex)] : 0;
-        numCombos[givenPlayScoresIndex][currentScore] = withoutThisPlay + withThisPlay;
+
+        // current score is scores added from without this play and with this play
+        numCombos[individualPlayScoresIndex][currentScore] = withoutThisPlay + withThisPlay;
       }
     }
     return numCombos[individualPlayScores.size() - 1][finalScore];
