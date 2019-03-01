@@ -17,11 +17,15 @@ public class SumRootToLeaf {
     private static int sumUpFromRoot(BinaryTreeNode<Integer> tree, int partialSum) {
         if (tree == null) return 0;
 
-        // for each digit of 1's, multiply the current sum by 2 and add current node data
+        // for each digit of 1's, multiply the current sum of children nodes by 2 and add current node data
+        // THIS IS IMPORTANT TO KNOW: 2 * (1100) + 1 = 11001
         partialSum = partialSum * 2 + tree.data;
+
+        // we are the leaf so just output its integer value, which is the partial sum
         if (tree.left == null && tree.right == null)
             return partialSum;
 
+        // not a leaf so we return the sum of the results from its left and right children
         return sumUpFromRoot(tree.left, partialSum) + sumUpFromRoot(tree.right, partialSum);
 
     }
